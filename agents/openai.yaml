@@ -1,4 +1,4 @@
 interface:
   display_name: "PPT Prompt"
-  short_description: "Create reusable PPT planning packages with outlines, page-family rules, style prompts, and optional image assets."
-  default_prompt: "Use ppt-prompt to generate PPT内容大纲.txt, 风格提示词.txt, and images/ when needed. Separate content references from style references, define consistent page-family layouts for repeated slide types, preserve useful assets from PPT/PDF/image materials, and confirm audience, page count, use scenario, output language, and reference roles before generation."
+  short_description: "Create reusable PPT planning packages with audience-fit visuals, outlines, page-family rules, style prompts, and only necessary assets."
+  default_prompt: "Use ppt-prompt to generate PPT内容大纲.txt, 风格提示词.txt, and images/ only when needed. Analyze the target audience before deciding visual style, including role, age, emotional state, authority expectations, illustration level, cartoon level, and information density. Separate content references from style references, define consistent page-family layouts for repeated slide types, preserve only necessary hard-to-recreate assets such as real photos, case screenshots, data charts, UI/product screenshots, or brand/IP materials from PPT/PDF/image sources, and confirm audience, page count, use scenario, output language, and reference roles before generation."
