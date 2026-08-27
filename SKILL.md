@@ -26,9 +26,21 @@ Use `images/` only for necessary visual assets that should travel with the plann
 - Data charts, tables, diagrams, maps, screenshots, or figures extracted from user-provided materials.
 - User-provided reference images that are required as concrete source assets, not merely style inspiration.
 - Official, brand, IP, product, film, or event images when the user explicitly permits or requests their use.
-- Web-sourced images only when necessary and permitted, with source or usage notes recorded.
+- Web-sourced real images when necessary and permitted, with source and usage notes recorded.
+
+The user permits web collection of real images when the PPT genuinely needs them. Use this permission narrowly: collect real images only when they materially improve the deck, such as official film stills, product photos, real places, people, historical photos, evidence screenshots, charts, maps, dataset figures, or other factual visuals. If an illustration or editable diagram would communicate the idea just as well, prefer that and do not create `images/`.
 
 Do not create `images/` when no image assets are needed. Do not create process notes, Markdown files, Word files, PDF files, PPT files, screenshots made only for analysis, or intermediate analysis files during this stage.
+
+## Audience-Facing Copy Rules
+
+Distinguish internal planning metadata from slide text that the end audience will actually see:
+
+- `目标受众`, `使用场景`, `使用者`, and similar context fields belong in the outline metadata, not in audience-facing slide copy.
+- Do not write product-introduction phrases on slides, such as "小学主题班课", "开学第一课", "适用于...", "20页PPT+教学设计", "通用模板", or similar sales/package labels, unless the user explicitly asks to show them.
+- On cover pages and section dividers, write the actual usable lesson/report/training theme directly. Example: use `每个我都闪闪发光` instead of `小学心理健康主题班会课`.
+- If the user gives a broad scenario like "小学主题班课/开学第一课", convert it into a concrete classroom-facing topic or subtitle rather than displaying the scenario as a selling point.
+- Keep scenario and audience information visible only where it helps production planning, such as the top metadata of `PPT内容大纲.txt` or `备注：`.
 
 ## Mandatory Confirmation Before Generation
 
@@ -49,6 +61,7 @@ Usually useful inputs:
 - Whether the final PPT will need editable text and editable charts
 - Whether official/brand/IP materials are allowed
 - Whether source images, data charts, or other visual assets should be extracted or packaged into `images/`
+- Whether web-sourced real images should be collected; by default, this is allowed only when genuinely needed for the PPT and must be documented.
 
 If page count is missing, ask:
 
@@ -136,6 +149,7 @@ Web research:
 - Use official sources when the topic involves a specific brand, product, film, book, policy, institution, or current event.
 - Summarize sources; do not copy long passages.
 - Cite sources in the final response when web research was used.
+- When real images are needed, browse for suitable assets, prefer official pages, public-domain/open-license repositories, or reputable source pages, then save only the necessary images to `images/` and record source URLs and usage notes.
 
 Hot topic handling:
 - Hot topics are entry points, not the whole PPT.
@@ -217,12 +231,16 @@ When adding images:
 - Do not include watermarked, account-marked, QR-coded, or platform UI images unless the user explicitly requires them.
 - For web or official images, record source and usage notes in `风格提示词.txt` or the relevant page `备注：`.
 - Reference every packaged image from at least one page's `备注：` or from the style prompt. Do not leave unused images in the folder.
+- For web-sourced real images, prefer stable original files over search-result thumbnails. Avoid hotlink-only assets; save a local copy and record the source page URL, image URL when available, license/permission note when discoverable, and intended slide usage.
+- If copyright or permission is unclear, mark the image as `visual reference only` and recommend replacing it with an authorized asset during final production.
 
 When a chart or diagram should be editable later, include the image asset only as a visual reference and state in `备注：` that the final PPT should rebuild it as editable chart/shape/text when possible.
 
 ## Folder Naming
 
 Use a polished, presentation-ready Chinese or requested-language topic name. Avoid copying platform titles, blogger titles, account names, trendy punctuation, dates, or source identifiers unless they are essential to the user's topic.
+
+Use the content topic as the folder name, not the product category. Avoid names that only describe the package type, such as `小学主题班课通用PPT`, when a real theme can be inferred.
 
 Examples:
 - `从牛来到我来新学期我准备好了`
@@ -245,6 +263,19 @@ Examples:
 7. Generate `风格提示词.txt`.
 8. Create `images/` only if necessary visual assets must be packaged.
 9. Verify file count, page count, field completeness, source handling, image-asset references, style usability, and editable-text safety.
+
+## Layout Consistency Rules
+
+When several pages belong to the same section, module, activity group, or repeated page type, keep their layout style as consistent as possible:
+
+- Use the same master layout, grid, title position, content block position, margin system, color role, decorative corner elements, and visual hierarchy.
+- Change mainly the slide text, page number, section label, and page-specific illustration subject.
+- For section divider pages, keep the chapter title treatment, illustration scale, background complexity, and decorative rhythm nearly identical across all dividers.
+- For repeated activity pages, keep the same task-card structure, icon positions, fill-in areas, and instruction hierarchy.
+- For repeated comparison, case, data, quote, exercise, or summary pages, use a reusable template family instead of inventing a new composition each time.
+- Only change the layout when the page's communication need genuinely changes, such as moving from a story scene to a data page or from a lecture page to a student output page.
+
+Record this consistency requirement in `风格提示词.txt`, especially under `三、版式布局` and `八、可复用 AI 设计提示词`, so later PPT production can reuse master pages instead of redesigning each page independently.
 
 ## PPT内容大纲.txt Format
 
@@ -364,6 +395,7 @@ The reusable AI design prompt must support 16:9 full-slide generation and includ
 - Palette with approximate HEX values when possible
 - Typography direction
 - Layout rhythm
+- Master-page consistency rules for same-section pages and repeated page types
 - Illustration/image treatment
 - Image asset usage and packaging rules
 - Information density
@@ -383,6 +415,7 @@ Use these as global design principles for all modes:
 - Avoid placing dense text over complex images, strong textures, gradients, photos, or illustrations.
 - Data/chart pages should not generate fake embedded chart text or numbers inside images; chart titles, axis labels, legends, and values should be editable.
 - If a page needs a short readable label inside an image, state it clearly and keep it minimal.
+- Same-section pages should reuse the same visual template whenever possible, with only copy and page-specific visuals changed.
 
 ## Mandatory Negative Constraints
 
@@ -398,6 +431,7 @@ Always include relevant negative constraints in `风格提示词.txt`, such as:
 - 不要照搬原页面顺序
 - 不要复刻完全一致页面布局
 - 不要使用原视频截图或表情包拼贴
+- 不要把产品包装词写进面向观众的页面文案，例如“小学主题班课”“开学第一课”“通用PPT”“课件资料包”“PPT+教案+学习单”，除非用户明确要求展示
 - 不要把实景照片里的屏幕外环境、设备边框、翻页 UI 识别为 PPT 设计
 - 不要在插图、背景、图标、书本封面、海报、路牌、票据、徽章、气泡或装饰元素里生成大段文字
 - 正文页不要把文字压在复杂插图、照片或强纹理背景上
@@ -438,9 +472,10 @@ Before final response, verify:
 11. The style prompt is independently reusable for 16:9 slide image generation.
 12. Body pages keep text and visuals clearly separated.
 13. Image/decorative areas prefer no text; required text is reserved for editable PPT text.
-14. Any official/brand/IP material use follows the user's explicit permission.
-15. If `images/` exists, all images are necessary, named clearly, and referenced.
-16. The result is ready for later PPT production if the user approves.
+14. Same-section pages and repeated page types have consistent master-layout guidance.
+15. Any official/brand/IP material use follows the user's explicit permission.
+16. If `images/` exists, all images are necessary, named clearly, and referenced.
+17. The result is ready for later PPT production if the user approves.
 
 ## Final Response
 
