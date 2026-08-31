@@ -1,6 +1,6 @@
 ---
 name: ppt-prompt
-description: "Generate general-purpose PPT planning packages, including page-by-page PPT outlines, reusable visual style prompts, and an optional images folder for necessary visual assets. Supports image-based recreation, topic-based research and synthesis, and decomposition of provided PPT/report/course materials. Always confirm key inputs such as audience, page count, use scenario, and output scope before generating. Outputs a topic-named folder containing PPT内容大纲.txt, 风格提示词.txt, and images/ only when needed unless the user explicitly asks for later PPT production."
+description: "Generate general-purpose PPT planning packages, including page-by-page PPT outlines, reusable visual style prompts, per-line font instructions, and optional images/fonts folders for necessary assets. Supports image-based recreation, topic-based research and synthesis, and decomposition of provided PPT/report/course materials. Always confirm key inputs such as audience, page count, use scenario, and output scope before generating. Outputs a topic-named folder containing PPT内容大纲.txt, 风格提示词.txt, 字体说明.txt, and asset folders only when needed unless the user explicitly asks for later PPT production."
 ---
 
 # PPT Prompt
@@ -14,12 +14,19 @@ Always create one polished topic-named folder containing:
 ```text
 PPT内容大纲.txt
 风格提示词.txt
+字体说明.txt
 ```
 
 If the PPT needs specific image assets for later production, also create:
 
 ```text
 images/
+```
+
+If the PPT uses fonts that should travel with the planning package and the font files can be located locally, also create:
+
+```text
+fonts/
 ```
 
 Use `images/` only for necessary visual assets that should travel with the planning package, such as:
@@ -31,6 +38,8 @@ Use `images/` only for necessary visual assets that should travel with the plann
 The user permits web collection of real images when the PPT genuinely needs them. Use this permission narrowly: collect real images only when they materially improve the deck, such as official film stills, product photos, real places, people, historical photos, evidence screenshots, charts, maps, dataset figures, or other factual visuals. If an illustration or editable diagram would communicate the idea just as well, prefer that and do not create `images/`.
 
 Do not create `images/` when no image assets are needed. Do not create process notes, Markdown files, Word files, PDF files, PPT files, screenshots made only for analysis, or intermediate analysis files during this stage.
+
+Do not create `fonts/` when no font files need to be packaged or when font files cannot be safely located. Still create `字体说明.txt` and list the chosen fonts, local availability status, fallback fonts, and packaging notes.
 
 ## Audience-Facing Copy Rules
 
@@ -62,6 +71,7 @@ Usually useful inputs:
 - Whether official/brand/IP materials are allowed
 - Whether source images, data charts, or other visual assets should be extracted or packaged into `images/`
 - Whether web-sourced real images should be collected; by default, this is allowed only when genuinely needed for the PPT and must be documented.
+- Whether font files should be packaged into `fonts/`; by default, package only the fonts actually selected for the deck when local font files are discoverable.
 
 If page count is missing, ask:
 
@@ -236,6 +246,46 @@ When adding images:
 
 When a chart or diagram should be editable later, include the image asset only as a visual reference and state in `备注：` that the final PPT should rebuild it as editable chart/shape/text when possible.
 
+## Font Selection and Packaging
+
+Always create `字体说明.txt` for every PPT planning package.
+
+Font choice is not fixed. Select fonts according to the topic, audience, tone, and visual style of the current deck:
+
+- Children's, storybook, playful, or classroom decks may use local rounded, handwritten, or friendly fonts when available.
+- Formal reports, business decks, policy decks, and academic decks should use local clean sans-serif or serif fonts with strong readability.
+- Traditional culture, literature, ceremony, or heritage decks may use local Song, Kai, Li, or calligraphic-style fonts when they fit the style.
+- Technology, product, and operational dashboards should use local modern sans-serif fonts with stable numeric rendering.
+
+Before finalizing font choices, inspect the local machine's installed fonts when feasible. On Windows, useful sources include:
+
+```text
+C:\Windows\Fonts
+C:\Users\<user>\AppData\Local\Microsoft\Windows\Fonts
+HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts
+HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts
+```
+
+Use fonts that are actually available on the machine. Do not invent or casually recommend fonts that have not been verified locally. If an ideal font is missing, choose the closest local substitute and record the substitution in `字体说明.txt`.
+
+`字体说明.txt` must include:
+
+- Font selection principles for this deck.
+- Project font list: font display name, role, weight/style, local file name or path when found, and fallback font.
+- Font packaging list: which font files were copied into `fonts/`, or why no font files were packaged.
+- Per-page and per-sentence font mapping: every audience-facing text line in `PPT内容大纲.txt` should have a corresponding font name, weight/style, approximate size tier, and usage note.
+- License/permission notes: mark system or third-party fonts as local-use only when redistribution rights are unclear.
+
+When creating `fonts/`:
+
+- Copy only fonts actually used by the deck.
+- Use stable filenames matching the original file where possible.
+- Do not package unused fonts.
+- If a font is a system font or its redistribution rights are unclear, either avoid packaging it or package only when the user's workflow requires it, and clearly mark `授权需自行确认` in `字体说明.txt`.
+- If a selected font cannot be copied, record its local name and fallback instead of silently omitting it.
+
+In `风格提示词.txt`, write the font strategy clearly enough for later PPT production, including which font is used for each major text role and that the exact per-line mapping is in `字体说明.txt`.
+
 ## Folder Naming
 
 Use a polished, presentation-ready Chinese or requested-language topic name. Avoid copying platform titles, blogger titles, account names, trendy punctuation, dates, or source identifiers unless they are essential to the user's topic.
@@ -261,8 +311,10 @@ Examples:
 5. Build the PPT narrative arc and section structure.
 6. Generate `PPT内容大纲.txt`.
 7. Generate `风格提示词.txt`.
-8. Create `images/` only if necessary visual assets must be packaged.
-9. Verify file count, page count, field completeness, source handling, image-asset references, style usability, and editable-text safety.
+8. Generate `字体说明.txt`, including verified local fonts and per-page/per-sentence font mapping.
+9. Create `images/` only if necessary visual assets must be packaged.
+10. Create `fonts/` only if selected local font files should be packaged and can be located.
+11. Verify file count, page count, field completeness, source handling, image-asset references, font references, style usability, and editable-text safety.
 
 ## Layout Consistency Rules
 
@@ -317,6 +369,7 @@ Each page must include:
 
 Use `备注：` to record page-specific production notes, including:
 - Required image asset filename from `images/`
+- Font notes when a page needs a special font treatment; detailed per-line font mapping belongs in `字体说明.txt`
 - Whether a chart/diagram should be rebuilt as editable PPT elements
 - Source or permission notes for official, brand, IP, web, or user-provided assets
 - Special data, citation, or visual treatment requirements
@@ -393,7 +446,7 @@ If no images are packaged, write:
 The reusable AI design prompt must support 16:9 full-slide generation and include:
 - Overall art direction
 - Palette with approximate HEX values when possible
-- Typography direction
+- Typography direction using verified local fonts and pointing to `字体说明.txt` for exact line-level assignments
 - Layout rhythm
 - Master-page consistency rules for same-section pages and repeated page types
 - Illustration/image treatment
@@ -404,11 +457,47 @@ The reusable AI design prompt must support 16:9 full-slide generation and includ
 - Rules for separating editable text zones from image zones
 - Negative constraints
 
+## 字体说明.txt Format
+
+Use this structure:
+
+```text
+一、字体选择原则
+
+二、本机字体检查结果
+
+三、本项目使用字体清单
+
+四、字体文件打包清单
+
+五、逐页逐句字体标注
+
+六、替代字体方案
+
+七、授权与使用说明
+
+八、自检记录
+```
+
+For `五、逐页逐句字体标注`, use a clear repeatable structure:
+
+```text
+第01页
+1. 文案：...
+   字体：...
+   字重/样式：...
+   字号层级：封面主标题 / 副标题 / 正文 / 注释 / 标签 / 页码 / 数字
+   用途说明：...
+```
+
+Every audience-facing line planned in the outline should be covered. If a page contains repeated list items using the same font, list each sentence separately but allow one shared font rule after each sentence.
+
 ## Editable Text and Visual Separation Rules
 
 Use these as global design principles for all modes:
 
 - Keep illustrations, backgrounds, decorative elements, icons, book covers, posters, UI screens, signs, badges, cards, charts, and image areas text-free whenever possible.
+- Keep illustrations, backgrounds, decorative elements, icons, book covers, posters, UI screens, signs, badges, cards, charts, and image areas free of numbers whenever possible.
 - Put required titles, body text, labels, chart values, figure captions, notes, and callouts in the outline as separate editable PPT text.
 - Cover pages, section divider pages, and transition pages may use richer full-scene visuals.
 - Body/content pages must keep text and visuals in clearly separated zones.
@@ -434,6 +523,7 @@ Always include relevant negative constraints in `风格提示词.txt`, such as:
 - 不要把产品包装词写进面向观众的页面文案，例如“小学主题班课”“开学第一课”“通用PPT”“课件资料包”“PPT+教案+学习单”，除非用户明确要求展示
 - 不要把实景照片里的屏幕外环境、设备边框、翻页 UI 识别为 PPT 设计
 - 不要在插图、背景、图标、书本封面、海报、路牌、票据、徽章、气泡或装饰元素里生成大段文字
+- 不要在插图、背景、图标、书本封面、海报、路牌、票据、徽章、气泡或装饰元素里生成数字，除非确实需要且后期无法用可编辑 PPT 文本替代
 - 正文页不要把文字压在复杂插图、照片或强纹理背景上
 - 正文页不要让文字和插图混在同一视觉区域里难以编辑
 - 不要文字过小或拥挤
@@ -455,11 +545,23 @@ If `images/` is created, verify:
 5. Data charts or diagrams that should be editable later are marked for editable rebuilding.
 6. Web/official/brand/IP image usage follows the user's permission and includes source or usage notes.
 
+## Fonts Folder Self-Check
+
+If `fonts/` is created, verify:
+
+1. Every packaged font is actually used by the deck.
+2. Every packaged font has a clear filename.
+3. Every packaged font is referenced in `字体说明.txt`.
+4. The font source path or discovery source is recorded.
+5. Redistribution or licensing uncertainty is noted.
+6. Fallback fonts are provided for every selected font.
+7. No unused font files are included.
+
 ## Self-Check
 
 Before final response, verify:
 
-1. The output folder contains `PPT内容大纲.txt`, `风格提示词.txt`, and `images/` only when needed.
+1. The output folder contains `PPT内容大纲.txt`, `风格提示词.txt`, `字体说明.txt`, and asset folders only when needed.
 2. Folder name is the final topic name.
 3. Page count exactly matches the user-specified count.
 4. Every page has all required fields.
@@ -471,11 +573,13 @@ Before final response, verify:
 10. The outline has a clear narrative or presentation logic.
 11. The style prompt is independently reusable for 16:9 slide image generation.
 12. Body pages keep text and visuals clearly separated.
-13. Image/decorative areas prefer no text; required text is reserved for editable PPT text.
-14. Same-section pages and repeated page types have consistent master-layout guidance.
-15. Any official/brand/IP material use follows the user's explicit permission.
-16. If `images/` exists, all images are necessary, named clearly, and referenced.
-17. The result is ready for later PPT production if the user approves.
+13. Image/decorative areas prefer no text or numbers; required text and numbers are reserved for editable PPT text.
+14. `字体说明.txt` exists and maps every audience-facing line to verified local fonts or documented fallbacks.
+15. Same-section pages and repeated page types have consistent master-layout guidance.
+16. Any official/brand/IP material use follows the user's explicit permission.
+17. If `images/` exists, all images are necessary, named clearly, and referenced.
+18. If `fonts/` exists, all fonts are necessary, named clearly, referenced, and have licensing notes.
+19. The result is ready for later PPT production if the user approves.
 
 ## Final Response
 
@@ -483,7 +587,9 @@ Return concise links to:
 - Output folder
 - `PPT内容大纲.txt`
 - `风格提示词.txt`
+- `字体说明.txt`
 - `images/`, if created
+- `fonts/`, if created
 
 State verification results:
 - File count
@@ -492,3 +598,4 @@ State verification results:
 - Audience/use scenario confirmed
 - Whether web sources were used and cited
 - Whether `images/` was created and how many assets it contains
+- Whether `fonts/` was created and how many font files it contains
