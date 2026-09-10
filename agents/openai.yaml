@@ -1,4 +1,4 @@
 interface:
   display_name: "PPT Prompt"
   short_description: "Create general PPT outlines, style prompts, and optional image assets before production."
-  default_prompt: "Use ppt-prompt to generate PPT内容大纲.txt, 风格提示词.txt, and images/ when needed from image references, researched topics, or provided report/course/PPT materials after confirming audience, page count, and use scenario."
+  default_prompt: "Use ppt-prompt to generate a reusable PPT planning package: PPT内容大纲.txt, 风格提示词.txt, 字体说明.txt, and images/fonts only when needed. For mixed-source requests, first assign each material a role such as main content source, style/layout reference, asset source, or target constraint; ask before execution if roles, usage permission, target address, audience, page count, or use scenario are unclear."
